@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dialogue>
+
+	<htmlContent tag="NIRTH_EXTERIOR"><![CDATA[
+	<p>
+		You find yourself going past a quaint village, standing out in the middle of the frosty mountainside. A shabby sign barely spells out "Nirth", and you can see a few figures moving about in the houses, getting ready for the day. As a refuge for the harsh winterland around it, Nirth seems like quite an appealing place, despite looking quite run down.
+	</p>
+	<p>
+		Due to the fact that it's still quite early in the morning, the villagers don't take much notice of you; most of them are probably just going about their everyday business. The villagers seem to be comprised of mostly winterland types, with heavy fur and strong bodies.
+	</p>
+	<p>
+		The village seems to be surrounded by a wooden fence, and upon entering through the only open gate, you see that the houses are all made of wood as well.
+	</p>
+	#IF(game.getCurrentWeather()==WEATHER_SNOW)
+		<p>
+			The ongoing snow doesn't seem to bother the inhabitants at all, in fact, it almost seems like there's more of them.
+		</p>
+	#ENDIF
+	]]>
+	</htmlContent>
+	
+</dialogue>
