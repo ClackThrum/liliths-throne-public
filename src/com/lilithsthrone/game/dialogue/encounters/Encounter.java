@@ -23,6 +23,7 @@ import com.lilithsthrone.game.character.npc.dominion.EnforcerPatrol;
 import com.lilithsthrone.game.character.npc.dominion.HarpyNestsAttacker;
 import com.lilithsthrone.game.character.npc.dominion.Lumi;
 import com.lilithsthrone.game.character.npc.dominion.RentalMommy;
+import com.lilithsthrone.game.character.npc.nirth.Varu;
 import com.lilithsthrone.game.character.npc.submission.BatMorphCavernAttacker;
 import com.lilithsthrone.game.character.npc.submission.ImpAttacker;
 import com.lilithsthrone.game.character.npc.submission.SlimeCavernAttacker;
@@ -1145,6 +1146,40 @@ public enum Encounter {
 			return null;
 		}
 	},
+	
+	// MoreContent:
+	// Nirth:
+
+		NIRTH_DARK_ALLEY() {
+			@Override
+			public Map<EncounterType, Float> getDialogues() {
+	                    Map<EncounterType, Float> map = new HashMap<>();
+
+	                    map.put(EncounterType.NIRTH_ALLEY_VARU, 15f);
+	                    
+	                    return map;
+	                }
+	                @Override
+			protected DialogueNode initialiseEncounter(EncounterType node) {
+					
+				// Prioritise re-encountering the NPC on this tile:
+				List<NPC> encounterPossibilities = new ArrayList<>(Main.game.getNonCompanionCharactersPresent());
+				if(!encounterPossibilities.isEmpty()) {
+					NPC encounterNpc = Util.randomItemFrom(encounterPossibilities);
+					Main.game.setActiveNPC(encounterNpc);
+					return Main.game.getActiveNPC().getEncounterDialogue();
+				}
+				
+				Main.game.setActiveNPC(Main.game.getNpc(Varu.class));
+
+				try {
+					Main.game.addNPC(Main.game.getActiveNPC(), false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return Main.game.getActiveNPC().getEncounterDialogue();
+			}
+		},
 	
 	;
 	

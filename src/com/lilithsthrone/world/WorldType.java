@@ -64,7 +64,10 @@ public class WorldType {
 					new Value<>(new Color(0xd5445e), PlaceType.WORLD_MAP_DESERT_CITY), // desert city
 					
 					new Value<>(new Color(0xff8100), PlaceType.WORLD_MAP_VOLCANO), // volcano
-					new Value<>(new Color(0x3b3b3b), PlaceType.WORLD_MAP_LAVA_FLOWS) // lava flows
+					new Value<>(new Color(0x3b3b3b), PlaceType.WORLD_MAP_LAVA_FLOWS), // lava flows
+					
+					// MoreContent:
+					new Value<>(new Color(0x000064), PlaceType.WORLD_MAP_NIRTH) // nirth
 					)) {
 		@Override
 		public boolean isDiscoveredOnStart() {
@@ -976,6 +979,46 @@ public class WorldType {
 			return true;
 		}
 	};
+	
+	// MoreContent:
+	
+	// Nirth:
+	public static AbstractWorldType NIRTH = new AbstractWorldType(WorldRegion.DOMINION,
+			"Nirth",
+			PresetColour.BASE_PURPLE,
+			1,
+			true,
+			true,
+			TeleportPermissions.BOTH, "/com/lilithsthrone/res/map/nirth/nirth.png", PlaceType.WORLD_MAP_NIRTH, PlaceType.NIRTH_PLAZA, Util.newHashMapOfValues(
+					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
+					
+					new Value<>(new Color(0x004000), PlaceType.NIRTH_PLAZA),
+					
+					new Value<>(new Color(0x404040), PlaceType.NIRTH_STREET),
+					new Value<>(new Color(0x53aa40), PlaceType.NIRTH_DARK_ALLEYS),
+					new Value<>(new Color(0x40ff40), PlaceType.NIRTH_FROSTS_RESPITE),
+					new Value<>(new Color(0x8080ff), PlaceType.NIRTH_EXIT_WEST),
+					new Value<>(new Color(0xff4a00), PlaceType.NIRTH_EXIT_NORTH),
+					new Value<>(new Color(0x008040), PlaceType.NIRTH_EXIT_EAST),
+					new Value<>(new Color(0xffff80), PlaceType.NIRTH_EXIT_SOUTH))) {
+	};
+	
+	public static AbstractWorldType FROSTS_RESPITE = new AbstractWorldType(WorldRegion.DOMINION, "Milly's Shared Homestay",
+			PresetColour.BASE_BLUE,
+			1,
+			true,
+			false,
+			TeleportPermissions.OUTGOING_ONLY,
+			"/com/lilithsthrone/res/map/nirth/frostsRespite/frostsRespite.png", 
+			PlaceType.WORLD_MAP_NIRTH,
+			PlaceType.NIRTH_FROSTS_RESPITE, Util.newHashMapOfValues(
+					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
+					new Value<>(new Color(0x808080), PlaceType.NIRTH_FROSTS_RESPITE_CORRIDOR),
+					new Value<>(new Color(0x00ff00), PlaceType.NIRTH_FROSTS_RESPITE_ENTRANCE),
+					new Value<>(new Color(0xff8000), PlaceType.NIRTH_FROSTS_RESPITE_WOODEN_FLOORING),
+					new Value<>(new Color(0xff0080), PlaceType.NIRTH_FROSTS_RESPITE_OFFICE))) {
+	};
+
 	
 	
 	private static List<AbstractWorldType> allWorldTypes = new ArrayList<>();

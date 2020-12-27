@@ -1686,6 +1686,63 @@ public enum Quest {
 			return "After performing anilingus on a centaur slave and then being mounted and anally fucked by them, Natalya declared that your filly training is complete.";
 		}
 	},
+	
+	
+		// MoreContent:
+		// Nirth Milly Frosts Respite:
+		RELATIONSHIP_MILLY_HOMESTEAD_TASKS(QuestType.RELATIONSHIP, 1, 0) {
+			@Override
+			public String getName() {
+				return "Offer Nyan your help";
+			}
+
+			@Override
+			public String getDescription() {
+				return "Nyan explained that she's unable to sell any enchanted clothing due to the fact that her suppliers don't offer any."
+						+ " Apparently, these suppliers have used force to drive all of their rivals out of the area, so she has no alternative but to use them...<br/>"
+						+ "Perhaps you could offer to convince these new suppliers to let the old ones back?";
+			}
+
+			@Override
+			public String getCompletedDescription() {
+				return "You offered Nyan your help in convincing the new suppliers to let the old ones back.";
+			}
+		},
+		
+		RELATIONSHIP_MILLY_HOMESTEAD_TASKS_AGREED_TO_HELP(QuestType.RELATIONSHIP, 10, 50) {
+			@Override
+			public String getName() {
+				return "Do the tasks";
+			}
+
+			@Override
+			public String getDescription() {
+				return "";
+			}
+
+			@Override
+			public String getCompletedDescription() {
+				return "After having done all of your work, you should go tell Milly.";
+			}
+		},
+		
+		RELATIONSHIP_MILLY_HOMESTEAD_TASKS_DONE (QuestType.RELATIONSHIP, 10, 100) {
+			@Override
+			public String getName() {
+				return "Reward";
+			}
+
+			@Override
+			public String getDescription() {
+				return "You should return to Nyan and get the reward she promised you.";
+			}
+
+			@Override
+			public String getCompletedDescription() {
+				return "Nyan paid you the reward she promised, and also offered to give you a 25% discount in her store. She also let slip that she's single, in a clumsy attempt to hit on you...";
+			}
+		},
+		
 	;
 
 	private int level, experienceReward;

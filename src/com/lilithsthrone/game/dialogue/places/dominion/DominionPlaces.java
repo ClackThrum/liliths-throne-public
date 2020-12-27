@@ -1008,7 +1008,7 @@ public class DominionPlaces {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if (index == 1) {
-				if(Main.game.getPlayer().isDiscoveredWorldMap()) {
+				if(Main.game.getPlayer().isDiscoveredWorldMap() || Main.game.isDebugMode()) {
 					return new ResponseEffectsOnly("World travel", "Exit Dominion and head out into the wide world...") {
 						@Override
 						public void effects() {

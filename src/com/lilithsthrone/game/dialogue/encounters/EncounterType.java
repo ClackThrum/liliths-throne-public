@@ -56,7 +56,14 @@ public enum EncounterType {
 	
 	VENGAR_CAPTIVE_CLEAN_ROOM,
 	VENGAR_CAPTIVE_SHADOW_SILENCE_DOMINATE,
-	VENGAR_CAPTIVE_ROOM_BARRED
+	VENGAR_CAPTIVE_ROOM_BARRED,
+	
+	
+	// MoreContent:
+	// Nirth:
+	
+	NIRTH_ALLEY_VARU
+	
 	;
 
 	private boolean opportunistic;

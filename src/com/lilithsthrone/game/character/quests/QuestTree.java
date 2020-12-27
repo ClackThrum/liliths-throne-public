@@ -29,7 +29,8 @@ public class QuestTree {
 	public static TreeNode<Quest> helenaTree = new TreeNode<Quest>(Quest.ROMANCE_HELENA_1_OFFER_HELP);
 	public static TreeNode<Quest> natalyaTree = new TreeNode<Quest>(Quest.ROMANCE_NATALYA_1_INTERVIEW_START);
 	
-	
+	// MoreContent:
+	public static TreeNode<Quest> millyTree = new TreeNode<Quest>(Quest.RELATIONSHIP_MILLY_HOMESTEAD_TASKS);
 	
 	static {
 		TreeNode<Quest> node1 = new TreeNode<Quest>(Quest.MAIN_1_A_LILAYAS_TESTS);

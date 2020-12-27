@@ -111,6 +111,8 @@ import com.lilithsthrone.game.character.npc.misc.NPCOffspring;
 import com.lilithsthrone.game.character.npc.misc.PrologueFemale;
 import com.lilithsthrone.game.character.npc.misc.PrologueMale;
 import com.lilithsthrone.game.character.npc.misc.SlaveImport;
+import com.lilithsthrone.game.character.npc.nirth.Milly;
+import com.lilithsthrone.game.character.npc.nirth.Varu;
 import com.lilithsthrone.game.character.npc.submission.Axel;
 import com.lilithsthrone.game.character.npc.submission.Claire;
 import com.lilithsthrone.game.character.npc.submission.DarkSiren;
@@ -1830,6 +1832,13 @@ public class Game implements XMLSaving {
 				getNpc(Silence.class).setAffection(getNpc(Shadow.class), 100);
 				getNpc(Silence.class).getAffectionMap().remove(getNpc(Silence.class).getId());
 			}
+			
+			// MoreContent:
+			// Nirth (Frosts Respite):
+			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Milly.class))) { addNPC(new Milly(), false); addedNpcs.add(Milly.class); }
+						
+			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Varu.class))) { addNPC(new Varu(), false); addedNpcs.add(Varu.class); }
+
 			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Murk.class))) { addNPC(new Murk(), false); addedNpcs.add(Murk.class); }
 			
 		} catch (Exception e) {

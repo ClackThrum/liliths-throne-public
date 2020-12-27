@@ -373,6 +373,20 @@ public enum DialogueFlagValue {
 
 	murkLectured(true),
 	murkSpanked(true),
+	
+	
+	// MoreContent:
+	// Nirth:
+	// Frosts respite:
+	millyTalkedTo(true),
+	millyComplimented(true),
+	millyFlirtedWith(true),
+	millyHeadPatted(true), 
+	millyKissed(true), 
+	millySex(true), 
+	millyGift(true), 
+	millyMakeOut(true),
+	
 	;
 	
 	boolean dailyReset;

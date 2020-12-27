@@ -63,6 +63,8 @@ import com.lilithsthrone.game.dialogue.places.dominion.zaranixHome.ZaranixHomeFi
 import com.lilithsthrone.game.dialogue.places.dominion.zaranixHome.ZaranixHomeGroundFloor;
 import com.lilithsthrone.game.dialogue.places.dominion.zaranixHome.ZaranixHomeGroundFloorRepeat;
 import com.lilithsthrone.game.dialogue.places.global.GlobalFoloiFields;
+import com.lilithsthrone.game.dialogue.places.nirth.FrostsRespite;
+import com.lilithsthrone.game.dialogue.places.nirth.NirthPlaces;
 import com.lilithsthrone.game.dialogue.places.submission.BatCaverns;
 import com.lilithsthrone.game.dialogue.places.submission.LyssiethPalaceDialogue;
 import com.lilithsthrone.game.dialogue.places.submission.SlimeQueensLair;
@@ -4812,7 +4814,236 @@ public class PlaceType {
 		}
 	}.initWeatherImmune();
 	
-	
+	// MoreContent:
+		// Nirth:
+
+		public static final AbstractPlaceType NIRTH_PLAZA = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Nirth's town centre",
+				"In the very centre of Nirth there is a small but well used junction, where the inhabitants gather to trade.",
+				// TODO: Nirth Plaza SVG
+				"dominion/statue",
+				PresetColour.BASE_PINK_DEEP,
+				NirthPlaces.NIRTH_PLAZA,
+				Darkness.ALWAYS_LIGHT,
+				null, "in Nirth's central plaza") {
+			@Override
+			public List<Population> getPopulation() {
+				List<Population> pop = new ArrayList<>();
+				
+				if(Main.game.getCurrentWeather()==Weather.MAGIC_STORM) {
+					pop.add(new Population(true, PopulationType.PERSON, PopulationDensity.COUPLE, Subspecies.getDominionStormImmuneSpecies(true)));
+					pop.add(new Population(false, PopulationType.ENFORCER, PopulationDensity.OCCASIONAL, Subspecies.getDominionStormImmuneSpecies(true, Subspecies.HUMAN)));
+				} else {
+					pop.add(new Population(true, PopulationType.CROWD, PopulationDensity.DENSE, Subspecies.getWorldSpecies(WorldType.DOMINION, true)));
+					pop.add(new Population(false, PopulationType.ENFORCER, PopulationDensity.OCCASIONAL, Subspecies.getWorldSpecies(WorldType.DOMINION, true, Subspecies.HUMAN)));
+					pop.add(new Population(true, PopulationType.CENTAUR_CARTS, PopulationDensity.NUMEROUS, Util.newHashMapOfValues(new Value<>(Subspecies.CENTAUR, SubspeciesSpawnRarity.FOUR_COMMON))));
+				}
+				
+				return pop;
+			}
+		}.initMapBackgroundColour(PresetColour.MAP_BACKGROUND_PINK);
+		
+
+		public static final AbstractPlaceType NIRTH_STREET = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Nirth Streets",
+				"The bumpy snow paths of Nirth has a few well-built log cabins strewn about, with well-worn paths in the snow reaching into each of the houses.",
+				null,
+				PresetColour.BASE_GREY,
+				NirthPlaces.STREET,
+				Darkness.DAYLIGHT,
+				null, 
+				"in the streets of Nirth") {
+//			Encounter.NIRTH_STREET,
+//			@Override
+//			public boolean isDangerous() {
+//				return Main.game.getCurrentWeather() == Weather.MAGIC_STORM;
+//			}
+			@Override
+			public List<Population> getPopulation() {
+				if(Main.game.getCurrentWeather()!=Weather.MAGIC_STORM) {
+					List<Population> pop = Util.newArrayListOfValues(new Population(true, PopulationType.CROWD, PopulationDensity.DENSE, Subspecies.getWorldSpecies(WorldType.DOMINION, true)));
+					
+					return pop;
+					
+				} else {
+					return new ArrayList<>();
+				}
+			}
+		};
+
+		public static final AbstractPlaceType NIRTH_EXIT_EAST = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Nirth Exit",
+				"Dominion's wide boulevards turn back into regular streets as they trail off into the city's surprisingly-small suburbs.",
+				"dominion/exitEast",
+				PresetColour.BASE_RED,
+				NirthPlaces.CITY_EXIT,
+				Darkness.DAYLIGHT,
+				null,
+				"in the streets of Dominion") {
+			@Override
+			public List<Population> getPopulation() {
+				return NIRTH_STREET.getPopulation();
+			}
+			@Override
+			public Bearing getBearing() {
+				return Bearing.NORTH;
+			}
+		}.initMapBackgroundColour(PresetColour.MAP_BACKGROUND_PINK);
+		
+		public static final AbstractPlaceType NIRTH_EXIT_NORTH = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Nirth Exit",
+				"Dominion's wide boulevards turn back into regular streets as they trail off into the city's surprisingly-small suburbs.",
+				"dominion/exitNorth",
+				PresetColour.BASE_RED,
+				NirthPlaces.CITY_EXIT,
+				Darkness.DAYLIGHT,
+				null,
+				"in the streets of Dominion") {
+			@Override
+			public List<Population> getPopulation() {
+				return NIRTH_STREET.getPopulation();
+			}
+		}.initMapBackgroundColour(PresetColour.MAP_BACKGROUND_PINK);
+		
+		public static final AbstractPlaceType NIRTH_EXIT_WEST = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Nirth Exit",
+				"Dominion's wide boulevards turn back into regular streets as they trail off into the city's surprisingly-small suburbs.",
+				"dominion/exitWest",
+				PresetColour.BASE_RED,
+				NirthPlaces.CITY_EXIT,
+				Darkness.DAYLIGHT,
+				null,
+				"in the streets of Dominion") {
+			@Override
+			public List<Population> getPopulation() {
+				return NIRTH_STREET.getPopulation();
+			}
+		}.initMapBackgroundColour(PresetColour.MAP_BACKGROUND_PINK);
+		
+		public static final AbstractPlaceType NIRTH_EXIT_SOUTH = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Nirth Exit",
+				"Dominion's wide boulevards turn back into regular streets as they trail off into the city's surprisingly-small suburbs.",
+				"dominion/exitSouth",
+				PresetColour.BASE_RED,
+				NirthPlaces.CITY_EXIT,
+				Darkness.DAYLIGHT,
+				null,
+				"in the streets of Dominion") {
+			@Override
+			public List<Population> getPopulation() {
+				return NIRTH_STREET.getPopulation();
+			}
+		}.initMapBackgroundColour(PresetColour.MAP_BACKGROUND_PINK);
+		
+		public static final AbstractPlaceType NIRTH_FROSTS_RESPITE = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Frosts Respite Homestay",
+				"A place for travellers to stay where they share a home with the owner, Milly.",
+				"dominion/homeIcon",
+				PresetColour.BASE_TEAL,
+				FrostsRespite.OUTSIDE,
+				Darkness.ALWAYS_LIGHT,
+				null,
+				//			Encounter.NIRTH_STREET,
+				"in the streets of Nirth") {
+			@Override
+			public List<Population> getPopulation() {
+				return NIRTH_STREET.getPopulation();
+			}
+		};
+		/*
+		public static final AbstractPlaceType NIRTH_DANGEROUS_AURA = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Frosts Respite Homestay",
+				"A place for travellers to stay where they share a home with the owner, Milly.",
+				"dominion/homeIcon",
+				PresetColour.BASE_TEAL,
+				FrostsRespite.OUTSIDE,
+				Darkness.ALWAYS_LIGHT,
+				null,
+				//			Encounter.NIRTH_STREET,
+				"in the streets of Nirth") {
+			@Override
+			public List<Population> getPopulation() {
+				return NIRTH_STREET.getPopulation();
+			}
+		}; */
+		
+		public static final AbstractPlaceType NIRTH_DARK_ALLEYS = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Dark Alleyways",
+				"The darkest parts of Nirth's alleys, which for some reason occasionally resonate a dangerous aura...",
+				"dominion/alleysDarkIcon",
+				PresetColour.BASE_PURPLE,
+				NirthPlaces.DARK_ALLEYS,
+				Darkness.DAYLIGHT, Encounter.NIRTH_DARK_ALLEY, "in one of Nirth's dark alleyways"
+				).initDangerous();
+		
+		
+		public static final AbstractPlaceType NIRTH_FROSTS_RESPITE_ENTRANCE = new AbstractPlaceType(
+				WorldRegion.DOMINION,
+				"Entrance",
+				"The entrance to Frosts Respite feels just like home.",
+				"dominion/homeImprovements/exit",
+				PresetColour.BASE_RED,
+				FrostsRespite.ENTRANCE,
+				Darkness.ALWAYS_LIGHT,
+				null,
+				"in 'Frosts Respite Homestay'") {
+			@Override
+			public List<Population> getPopulation() {
+				return NIRTH_STREET.getPopulation();
+			}
+		}.initWeatherImmune();
+
+		// Frosts Respite:
+		
+			public static final AbstractPlaceType NIRTH_FROSTS_RESPITE_CORRIDOR = new AbstractPlaceType(
+					WorldRegion.DOMINION,
+					"Corridors",
+					"Wide, concrete-floored aisles run throughout the warehouse, giving customers plenty of room in which to wheel their trolleys past one another.",
+					null,
+					PresetColour.BASE_BLACK,
+					FrostsRespite.CORRIDOR,
+					Darkness.ALWAYS_LIGHT,
+					null,
+					"in 'Argus's DIY Depot'") {
+
+			}.initWeatherImmune();
+
+			public static final AbstractPlaceType NIRTH_FROSTS_RESPITE_WOODEN_FLOORING = new AbstractPlaceType(
+					WorldRegion.DOMINION,
+					"Building supplies",
+					"Near the back of the warehouse, there are numerous shelving units stocked full of timber, tiles, piping, and all sorts of other building materials.",
+					"dominion/homeImprovements/crates",
+					PresetColour.BASE_ORANGE,
+					FrostsRespite.WOODEN_FLOORING,
+					Darkness.ALWAYS_LIGHT,
+					null,
+					"in 'Argus's DIY Depot'") {
+				@Override
+				public List<Population> getPopulation() {
+					return Util.newArrayListOfValues(new Population(true, PopulationType.SHOPPER, PopulationDensity.COUPLE, Subspecies.getWorldSpecies(WorldType.DOMINION, true)));
+				}
+			}.initWeatherImmune();
+
+			public static final AbstractPlaceType NIRTH_FROSTS_RESPITE_OFFICE = new AbstractPlaceType(
+					WorldRegion.DOMINION,
+					"Manager's Office",
+					"Argus, the owner and manager of this business, has his office situated close to the warehouse's entrance.",
+					"dominion/homeImprovements/office",
+					PresetColour.BASE_MAGENTA,
+					FrostsRespite.OFFICE,
+					Darkness.ALWAYS_LIGHT,
+					null,
+					"in Argus's office")
+			.initWeatherImmune();
 	
 	
 	// World map tiles:
@@ -5007,7 +5238,8 @@ public class PlaceType {
 			"river Hubur (wild)",
 			null,
 			"Far from Dominion, the river Hubur is a dangerous place in which to swim, as it is home to many wild freshwater races.",
-			new Colour(Util.newColour(0xc1f1ee)), null, null, "") {
+			new Colour(Util.newColour(0xc1f1ee)), 
+			GlobalFoloiFields.RIVER_HUBUR_WILD, null, "") {
 				@Override
 				public AbstractWorldType getGlobalLinkedWorldType() {
 					return null;
@@ -5135,6 +5367,23 @@ public class PlaceType {
 					return null;
 				}
 	}.initDangerous();
+	
+	// MoreContent:
+		public static final AbstractGlobalPlaceType WORLD_MAP_NIRTH = new AbstractGlobalPlaceType(
+				WorldRegion.DOMINION,
+				"Nirth",
+				"A small village in the mountainside, a small refuge from the harsh winterland mountainside.",
+				//TODO: SVG
+				"global/dominion",
+				PresetColour.BASE_PURPLE,
+				new Colour(Util.newColour(0xe2f2f2)),
+				GlobalFoloiFields.NIRTH_EXTERIOR,
+				null, "outside the village of Nirth") {
+			@Override
+			public AbstractWorldType getGlobalLinkedWorldType() {
+				return WorldType.NIRTH;
+			}
+		}.initAquatic(Aquatic.MIXED);
 	
 	
 	
