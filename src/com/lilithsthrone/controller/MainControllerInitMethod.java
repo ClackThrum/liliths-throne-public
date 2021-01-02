@@ -204,11 +204,14 @@ import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
 import com.lilithsthrone.game.sex.SexParticipantType;
 import com.lilithsthrone.game.sex.SexType;
+import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.Artist;
 import com.lilithsthrone.rendering.Artwork;
 import com.lilithsthrone.rendering.Pattern;
 import com.lilithsthrone.rendering.RenderingEngine;
+import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.SexArtwork;
 import com.lilithsthrone.utils.Pathing;
 import com.lilithsthrone.utils.Units;
 import com.lilithsthrone.utils.Util;
@@ -418,6 +421,127 @@ public class MainControllerInitMethod {
 			}
 		}
 		
+		 // SexPosition artwork
+		if(Main.game.isInSex()) {
+			AbstractSexPosition sexPosition = Main.sex.getPosition();
+			
+			id = "SEX_ARTWORK_ADD";
+			if (MainController.document.getElementById(id) != null) {
+				((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+					// Create file chooser for .jpg and .png images in the most recently used directory
+					FileChooser chooser = new FileChooser();
+					chooser.setTitle("Add Images");
+					chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.gif"));
+					if (lastOpened != null)
+						chooser.setInitialDirectory(lastOpened);
+
+					List<File> files = chooser.showOpenMultipleDialog(Main.primaryStage);
+					if (files != null && !files.isEmpty()) {
+						lastOpened = files.get(0).getParentFile();
+
+						sexPosition.importImages(files);
+						// Main.sex.SEX_DIALOGUE.getContent().replace("SEX_ARTWORK_ADD", "");
+					//	Main.sex.SEX_DIALOGUE.getContent().replace("<div class='title-button' id='SEX_ARTWORK_ADD' style='position:relative; float:right; background:transparent; left:auto; right:4px;'>"+SVGImages.SVG_IMAGE_PROVIDER.getAddIcon()+"</div>", "");
+						
+					//	if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
+					//	Main.game.getCurrentDialogue().replace("SEX_ARTWORK_ADD", "");
+					//	MainController.(MainController.Document.getElementById(id))
+					//	MainController.unbindListenersSexArtwork(MainController.document.getElementById(id));
+					//	DialogueNode dialogueNodeCopy = Main.game.getCurrentDialogueNode();
+					//	dialogueNodeCopy.getContent().replace("<p style='text-align:center;'><b>"+Main.sex.getSexManager().getPosition().appendSexArtwork()+"</b>", "");
+					//	dialogueNodeCopy.getContent().replace("<div class='title-button' id='SEX_ARTWORK_ADD' style='position:relative; float:right; background:transparent; left:auto; right:4px;'>"+SVGImages.SVG_IMAGE_PROVIDER.getAddIcon()+"</div>", "");
+						Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+					}
+				}, false);
+				
+				MainController.addEventListener(MainController.document, id, "mousemove", MainController.moveTooltipListener, false);
+				MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
+				MainController.addEventListener(MainController.document, id, "mouseenter", new TooltipInformationEventListener().setInformation(
+						"Add custom artwork",
+						"Browse your own images and add them to the character."
+								+ " Please note that GIF animation files are limited to a <b>maximum of 10MB</b> in size, and if over 1MB, <b>may</b> cause [style.italicsBad(significant lag)], depending on your system."),
+						false);
+				
+			}
+			
+		if (sexPosition.hasSexArtwork()) {
+			try {
+				SexArtwork artwork = sexPosition.getCurrentSexArtwork();
+
+				id = "ARTWORK_INFO";
+				if (MainController.document.getElementById(id) != null) {
+					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+						if(!artwork.getArtist().getWebsites().isEmpty()) {
+							Util.openLinkInDefaultBrowser(artwork.getArtist().getWebsites().get(0).getURL());
+						}
+					}, false);
+
+					MainController.addEventListener(MainController.document, id, "mousemove", MainController.moveTooltipListener, false);
+					MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
+
+					String description;
+					if (artwork.getArtist().getName().equals("Custom")) {
+						description = "You added this yourself.";
+					} else if (artwork.getArtist().getWebsites().isEmpty()) {
+						description = "This artist has no associated websites!";
+					} else {
+						description = "Click to open <b style='color:"+artwork.getArtist().getColour().toWebHexString()+";'>"+artwork.getArtist().getWebsites().get(0).getName()+"</b>"
+								+ " ("+artwork.getArtist().getWebsites().get(0).getURL()+") <b>externally</b> in your default browser!";
+					}
+					MainController.addEventListener(MainController.document, id, "mouseenter", new TooltipInformationEventListener().setInformation(
+							"Artwork by <b style='color:"+artwork.getArtist().getColour().toWebHexString()+";'>"+artwork.getArtist().getName()+"</b>",
+							description), false);
+				}
+
+				id = "ARTWORK_PREVIOUS";
+				if (MainController.document.getElementById(id) != null) {
+					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+						if(artwork.getTotalSexArtworkCount()>1) {
+							artwork.incrementIndex(-1);
+					//		if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
+					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+						}
+					}, false);
+				}
+
+				id = "ARTWORK_NEXT";
+				if (MainController.document.getElementById(id) != null) {
+					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+						if(artwork.getTotalSexArtworkCount()>1) {
+							artwork.incrementIndex(1);
+					//		if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
+					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+						}
+					}, false);
+				}
+
+				id = "ARTWORK_ARTIST_PREVIOUS";
+				if (MainController.document.getElementById(id) != null) {
+					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+						if(sexPosition.getSexArtworkList().size()>1) {
+							sexPosition.incrementSexArtworkIndex(-1);
+				//			if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
+				//			Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+						}
+					}, false);
+				}
+
+				id = "ARTWORK_ARTIST_NEXT";
+				if (MainController.document.getElementById(id) != null) {
+					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+						if(sexPosition.getSexArtworkList().size()>1) {
+							sexPosition.incrementSexArtworkIndex(1);
+					//		if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
+					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+						}
+					}, false);
+				}
+			} catch(Exception ex) {
+				System.err.println("MainController Artwork handling error.");
+			}
+		}
+	}
+	
 		// -------------------- Debug menu -------------------- //
 		
 		if(Main.game.getCurrentDialogueNode().equals(DebugDialogue.SPAWN_MENU) || Main.game.getCurrentDialogueNode().equals(DebugDialogue.ITEM_VIEWER)) {
@@ -6531,6 +6655,7 @@ public class MainControllerInitMethod {
 					new Value<>("LEVEL_DRAIN", PropertyValue.levelDrain),
 					new Value<>("ARTWORK", PropertyValue.artwork),
 					new Value<>("THUMBNAIL", PropertyValue.thumbnail),
+					new Value<>("SEX_ARTWORK", PropertyValue.sexArtwork),
 					new Value<>("SILLY", PropertyValue.sillyMode),
 					new Value<>("WEATHER_INTERRUPTION", PropertyValue.weatherInterruptions),
 					new Value<>("AUTO_SEX_CLOTHING_STRIP", PropertyValue.autoSexStrip),

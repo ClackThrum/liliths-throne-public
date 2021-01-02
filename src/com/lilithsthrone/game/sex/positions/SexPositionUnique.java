@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.Arm;
 import com.lilithsthrone.game.character.body.BodyPartInterface;
 import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.body.Leg;
 import com.lilithsthrone.game.character.body.Torso;
+import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
+import com.lilithsthrone.game.character.race.RaceStage;
 import com.lilithsthrone.game.character.body.Tail;
 import com.lilithsthrone.game.character.body.Tentacle;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
@@ -29,8 +32,15 @@ import com.lilithsthrone.game.sex.sexActions.dominion.RalphOral;
 import com.lilithsthrone.game.sex.sexActions.universal.GloryHole;
 import com.lilithsthrone.game.sex.sexActions.universal.HandHolding;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.Artwork;
+import com.lilithsthrone.rendering.CachedImage;
+import com.lilithsthrone.rendering.ImageCache;
+import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.SexArtwork;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+import com.lilithsthrone.utils.colours.Colour;
+import com.lilithsthrone.utils.colours.PresetColour;
 
 /**
  * 
@@ -371,6 +381,8 @@ public class SexPositionUnique {
 			3,
 			true,
 			null, Util.newArrayListOfValues(GloryHole.class)) {
+		
+		
 		@Override
 		public String getDescription(Map<GameCharacter, SexSlot> occupiedSlots) {
 			List<GameCharacter> characters = new ArrayList<>();
@@ -405,6 +417,8 @@ public class SexPositionUnique {
 			
 			return UtilText.parse(characters, sb.toString());
 		}
+		
+
 		
 		@Override
 		public Map<SexSlot, Map<SexSlot, SexActionInteractions>> getSlotTargets() {

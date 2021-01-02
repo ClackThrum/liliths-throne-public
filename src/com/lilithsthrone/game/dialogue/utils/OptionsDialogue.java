@@ -1987,6 +1987,13 @@ public class OptionsDialogue {
 								"Thumbnails",
 								"Enables tooltips containing thumbnail images of the character.",
 								Main.getProperties().hasValue(PropertyValue.thumbnail)));
+			
+			UtilText.nodeContentSB.append(getContentPreferenceDiv(ContentOptionsPage.MISC,
+					"SEX_ARTWORK",
+					PresetColour.BASE_PINK,
+					"Sex Artwork",
+					"Enables Artwork to be displayed during sex.",
+					Main.getProperties().hasValue(PropertyValue.sexArtwork)));
 
 			if(contentOptionsPage==ContentOptionsPage.MISC) {
 				UtilText.nodeContentSB.append(getCustomContentPreferenceDivStart(PresetColour.BASE_AQUA, "Preferred Artist", "Which artist's work is used by default."));

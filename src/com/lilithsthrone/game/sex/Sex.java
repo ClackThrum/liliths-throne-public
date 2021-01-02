@@ -77,6 +77,7 @@ import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericActions;
 import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericOrgasms;
 import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.PartnerTalk;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.ImageCache;
 import com.lilithsthrone.utils.Units;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
@@ -608,6 +609,11 @@ public class Sex {
 		sexSB.append("<p style='text-align:center;'><b>Starting Position:</b> <b style='color:"+PresetColour.GENERIC_ARCANE.toWebHexString()+";'>"+sexManager.getPosition().getName()+"</b><br/>"
 				+"<i><b>"+sexManager.getPosition().getDescription(Main.sex.getAllOccupiedSlots(false))+"</b></i></p>");
 		
+
+		sexSB.append("<p style='text-align:center;'><b>"+Main.sex.sexManager.getPosition().appendSexArtwork()+"</b>");
+		
+		sexSB.append("<p style='text-align:center;'><b>"+Main.sex.sexManager.getPosition().appendSexArtworkButton()+"</b>");
+		
 		sexSB.append(calculateWetAreas(true));
 		
 		charactersBannedFromRemovingSelfClothing = new HashSet<>();
@@ -734,6 +740,12 @@ public class Sex {
 				}
 			}
 		}
+		
+		// load sexposition sexartwork
+		
+	//	AbstractSexPosition sexPosition = Main.sex.getPosition();
+	//	if (sexPosition.hasSexArtwork() && Main.getProperties().hasValue(PropertyValue.sexArtwork))
+	//		ImageCache.INSTANCE.requestCache(sexPosition.getCurrentSexArtwork().getCurrentImage());
 		
 		// Strip clothing:
 		
@@ -4938,6 +4950,9 @@ public class Sex {
 		sexSB.append(
 				"<p style='text-align:center;'><b>New position:</b> <b style='color:"+PresetColour.GENERIC_ARCANE.toWebHexString()+";'>"+Main.sex.sexManager.getPosition().getName()+"</b><br/>"
 				+"<i><b>"+Main.sex.sexManager.getPosition().getDescription(Main.sex.getAllOccupiedSlots(false))+"</b></i></p>");
+		
+		
+		sexSB.append("<p style='text-align:center;'><b>"+Main.sex.sexManager.getPosition().appendSexArtwork()+"</b>");
 	}
 	
 	public void resetAllOngoingActions(boolean includeSpectators) {

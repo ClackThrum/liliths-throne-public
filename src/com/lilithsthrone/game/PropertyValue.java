@@ -16,6 +16,7 @@ public enum PropertyValue {
 	
 	artwork(true),
 	thumbnail(true),
+	sexArtwork(true),
 	
 	lightTheme(false),
 	overwriteWarning(true),

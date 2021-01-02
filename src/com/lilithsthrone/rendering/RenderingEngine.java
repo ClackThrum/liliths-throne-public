@@ -53,6 +53,7 @@ import com.lilithsthrone.game.settings.KeyboardAction;
 import com.lilithsthrone.game.sex.SexAreaInterface;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
+import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotGeneric;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Pathing;
@@ -1168,6 +1169,7 @@ public enum RenderingEngine {
 				"<body onLoad='scrollEventLogToBottom()'>");
 		
 		if(Main.game.isInSex()) {
+			
 			// Name box:
 			uiAttributeSB.append(
 				"<div class='full-width-container' style='background-color:"+PresetColour.BACKGROUND_DARK.toWebHexString()+"; border-radius:5px; margin-bottom:8px;'>"
@@ -1184,6 +1186,7 @@ public enum RenderingEngine {
 										:"134")
 									+"vw); overflow-y: auto;'>");
 			
+			
 			if(Main.sex.isDom(Main.game.getPlayer())) {
 				for(GameCharacter character : Main.sex.getDominantParticipants(true).keySet()) {
 					uiAttributeSB.append(getCharacterPanelSexDiv(Main.sex.getDominantParticipants(true).size()>1, character.isPlayer()?"PLAYER_":"NPC_"+character.getId()+"_", character));
@@ -1194,6 +1197,7 @@ public enum RenderingEngine {
 					uiAttributeSB.append(getCharacterPanelSexDiv(Main.sex.getSubmissiveParticipants(true).size()>1, character.isPlayer()?"PLAYER_":"NPC_"+character.getId()+"_", character));
 				}
 			}
+			
 			
 			uiAttributeSB.append("</div>");
 						
@@ -1418,6 +1422,8 @@ public enum RenderingEngine {
 						+ "</div>"
 					+ "</div>"
 					+ "<div class='full-width-container' style='height: calc(100% - 128vw); overflow-y: auto;'>");
+		
+				
 				
 				if(!Main.sex.isDom(Main.game.getPlayer())) {
 					for(GameCharacter character : Main.sex.getDominantParticipants(true).keySet()) {
@@ -2833,6 +2839,8 @@ public enum RenderingEngine {
 							+ "</div>")
 					+"</div>");
 		
+		
+				
 		if(isLimitedSpectatorPanel(character)) {
 			panelSB.append("<p style='padding:0;margin:auto 0;text-align:center;color:"+PresetColour.TEXT_GREY.toWebHexString()+";'>"+Util.capitaliseSentence(Main.sex.getSexPositionSlot(character).getName(character))+"</p>");
 
@@ -2963,6 +2971,7 @@ public enum RenderingEngine {
 						+ "</div>");
 				}
 			}
+			
 			
 			panelSB.append("</div></div>");
 		}

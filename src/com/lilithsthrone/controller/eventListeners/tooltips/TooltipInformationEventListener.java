@@ -60,6 +60,7 @@ import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
 import com.lilithsthrone.game.inventory.enchanting.LoadedEnchantment;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJob;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJobFlag;
+import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.CachedImage;
 import com.lilithsthrone.rendering.ImageCache;
@@ -88,6 +89,7 @@ public class TooltipInformationEventListener implements EventListener {
 	private boolean availableForSelection = false;
 	
 	private GameCharacter owner;
+	private AbstractSexPosition sexPosition;
 	private AbstractStatusEffect statusEffect;
 	private AbstractPerk perk;
 	private AbstractPerk levelUpPerk;
@@ -839,6 +841,9 @@ public class TooltipInformationEventListener implements EventListener {
 					if (displayImage) {
 						if (owner.hasArtwork()) {
 							image = ImageCache.INSTANCE.requestImage(owner.getCurrentArtwork().getCurrentImage());
+						}
+						if (sexPosition.hasSexArtwork()) {
+							image = ImageCache.INSTANCE.requestImage(sexPosition.getCurrentSexArtwork().getCurrentImage());
 						}
 						displayImage = image != null;
 					}

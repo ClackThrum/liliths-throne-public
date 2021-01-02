@@ -1,15 +1,28 @@
 package com.lilithsthrone.game.sex.positions;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.w3c.dom.Element;
+
 import java.util.Set;
 
+import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.BodyPartInterface;
+import com.lilithsthrone.game.dialogue.eventLog.EventLogEntry;
+import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.sex.OrgasmCumTarget;
 import com.lilithsthrone.game.sex.SexActionInteractions;
 import com.lilithsthrone.game.sex.SexAreaInterface;
@@ -21,8 +34,14 @@ import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import com.lilithsthrone.game.sex.sexActions.SexActionPresets;
 import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.Artist;
+import com.lilithsthrone.rendering.CachedImage;
+import com.lilithsthrone.rendering.ImageCache;
+import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.SexArtwork;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+import com.sun.xml.internal.ws.util.StringUtils;
 
 /**
  * SexPositions determine what actions are available for each AbstractSexSlot.<br/><br/>
@@ -40,6 +59,8 @@ import com.lilithsthrone.utils.Util.Value;
  * @version 0.3.4.5
  * @author Innoxia
  */
+
+
 public abstract class AbstractSexPosition {
 
 	private String name;
@@ -48,6 +69,10 @@ public abstract class AbstractSexPosition {
 	
 	private List<Class<?>> positioningClasses;
 	private List<Class<?>> specialClasses;
+	
+	protected List<SexArtwork> sexArtworkList;
+	protected int sexArtworkIndex = -1;
+	private String sexArtworkFolderName = "";
 	
 	public static List<SexAreaOrifice> genericGroinForceCreampieAreas = Util.newArrayListOfValues(SexAreaOrifice.ANUS, SexAreaOrifice.VAGINA, SexAreaOrifice.URETHRA_VAGINA, SexAreaOrifice.URETHRA_PENIS);
 	public static List<SexAreaOrifice> genericFaceForceCreampieAreas = Util.newArrayListOfValues(SexAreaOrifice.MOUTH);
@@ -62,6 +87,8 @@ public abstract class AbstractSexPosition {
 		this.addStandardActions = addStandardActions;
 		this.positioningClasses = positioningClasses;
 		this.specialClasses = specialClasses;
+		sexArtworkList = new ArrayList<>();
+		
 	}
 	
 	public String getName() {
@@ -81,7 +108,95 @@ public abstract class AbstractSexPosition {
 	}
 
 	public abstract String getDescription(Map<GameCharacter, SexSlot> occupiedSlots);
+	
+	public String appendSexArtwork() {
+	StringBuilder sb = new StringBuilder();
+	
+	if(Main.getProperties().hasValue(PropertyValue.sexArtwork)) {
+	//	if (!hasSexArtwork()) { 
+	//		ImageCache.INSTANCE.requestCache(this.getCurrentSexArtwork().getCurrentImage());
+	//	}
+		loadImages(true);
+		if (hasSexArtwork()) {
+			ImageCache.INSTANCE.requestCache(this.getCurrentSexArtwork().getCurrentImage());
+			this.loadImages(true);
+			SexArtwork artwork = this.getCurrentSexArtwork();
+			String imageString = "";
+			int width = 200;
+		//	int percentageWidth = 33;
+			int percentageWidth = 100;
+			CachedImage image = ImageCache.INSTANCE.getImage(artwork.getCurrentImage());
+			if (image != null) {
+				sb.append("Found image");
+				imageString = image.getImageString();
+				width = image.getWidth();
+				percentageWidth = image.getPercentageWidth();
+			}
 
+			sb.append(
+					"<div style='position:relative; "
+					// + "float:right;"
+					+ "float:inherit;"
+				//	+ "float:right;"
+					//+ "text-align:center;"
+				//	+ "margin-left:50%;"
+				//	+ "margin-right:50%;"
+					+ "margin:auto;"
+					+ "width:50%;"
+					+ " width:"+percentageWidth+"%; max-width:"+width+"; "
+					//		+ "object-fit:scale-down;'>"
+						+ "<div style='width:100%; margin:0;'>"
+							+(imageString.isEmpty()
+								//?"<div style='width:100%; margin:0; text-align:center;'>No image!</div>"
+								?""
+								//:"<img id='CHARACTER_IMAGE' style='"+" width:100%;' src='"+imageString+"'/>")
+								  :"<img id='SEXARTWORK_IMAGE' style='"+" width:100%;' src='"+imageString+"'/>")
+							+ "<div class='overlay no-pointer no-highlight' style='text-align:center;'>" // Add overlay div to stop javaFX's insane image drag+drop
+							+ "</div>"
+							/*
+							+ "<div class='title-button' id='SEX_ARTWORK_ADD' style='background:transparent; left:auto; right:28px;'>"+SVGImages.SVG_IMAGE_PROVIDER.getAddIcon()+"</div>"
+							+ "<div class='title-button' id='ARTWORK_INFO' style='background:transparent; left:auto; right:4px;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
+						+ "</div>"
+						+ "<div class='normal-button"+(artwork.getTotalSexArtworkCount()==1?" disabled":"")+"' id='ARTWORK_PREVIOUS' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&lt;</div>"
+						+ "<div style='float:left; width:80%; margin:0; text-align:center;'>"+(artwork.getIndex()+1)+"/"+artwork.getTotalSexArtworkCount()+"</div>"
+						+ "<div class='normal-button"+(artwork.getTotalSexArtworkCount()==1?" disabled":"")+"' id='ARTWORK_NEXT' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&gt;</div>"
+						
+						+ "<div class='normal-button"+(this.getSexArtworkList().size()==1?" disabled":"")+"' id='ARTWORK_ARTIST_PREVIOUS' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&lt;</div>"
+						+ "<div style='float:left; width:80%; margin:0; text-align:center;'>"+this.getSexArtworkList().get(sexArtworkIndex).getArtist().getName()+"</div>"
+						+ "<div class='normal-button"+(this.getSexArtworkList().size()==1?" disabled":"")+"' id='ARTWORK_ARTIST_NEXT' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&gt;</div>"
+						*/
+					+ "</div>");
+		} else {
+			
+			// sb.append("<div class='title-button' id='SEX_ARTWORK_ADD' style='position:absolute; float:right; background:transparent; left:auto; right:4px;'>"+SVGImages.SVG_IMAGE_PROVIDER.getAddIcon()+"</div>");
+		}
+	}
+	return sb.toString();
+}
+	public String appendSexArtworkButton() {
+		StringBuilder sb = new StringBuilder();
+		
+		/* if (hasSexArtwork()) {
+			SexArtwork artwork = this.getCurrentSexArtwork();
+				sb.append("<div style='position:absolute; "
+			+ "<div class='title-button' id='ARTWORK_INFO' style='background:transparent; left:auto; right:4px;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
+					+ "</div>"
+					+ "<div class='normal-button"+(artwork.getTotalSexArtworkCount()==1?" disabled":"")+"' id='ARTWORK_PREVIOUS' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&lt;</div>"
+					+ "<div style='float:left; width:80%; margin:0; text-align:center;'>"+(artwork.getIndex()+1)+"/"+artwork.getTotalSexArtworkCount()+"</div>"
+					+ "<div class='normal-button"+(artwork.getTotalSexArtworkCount()==1?" disabled":"")+"' id='ARTWORK_NEXT' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&gt;</div>"
+					+ "<div class='normal-button"+(this.getSexArtworkList().size()==1?" disabled":"")+"' id='ARTWORK_ARTIST_PREVIOUS' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&lt;</div>"
+					+ "<div style='float:left; width:80%; margin:0; text-align:center;'>"+this.getSexArtworkList().get(sexArtworkIndex).getArtist().getName()+"</div>"
+					+ "<div class='normal-button"+(this.getSexArtworkList().size()==1?" disabled":"")+"' id='ARTWORK_ARTIST_NEXT' style='float:left; width:10%; margin:0; padding:0; text-align:center;'>&gt;</div>"
+					);
+		}*/
+		
+		// SexArtwork artwork = this.getCurrentSexArtwork();
+		
+	
+		sb.append("<div class='title-button' id='SEX_ARTWORK_ADD' style='position:absolute; float:right; background:transparent; left:auto; right:4px;'>"+SVGImages.SVG_IMAGE_PROVIDER.getAddIcon()+"</div>");
+		return sb.toString();
+	}
+	
 	public Value<Boolean, String> isAcceptablePosition(Map<GameCharacter, SexSlot> positioningSlots) {
 		return new Value<Boolean, String>(true, "");
 	}
@@ -298,5 +413,156 @@ public abstract class AbstractSexPosition {
 			return getForcedCreampieMap(cumTarget, cumProvider).get(bodyPartUsed).contains(orifice);
 		}
 		return false;
+	}
+
+
+	public SexArtwork getCurrentSexArtwork() {
+		// Index is not set, use default
+		if(sexArtworkIndex == -1) {
+			sexArtworkIndex = getDefaultSexArtworkIndex();
+		}
+
+		return getSexArtworkList().get(sexArtworkIndex);
+	}
+
+	protected int getDefaultSexArtworkIndex() {
+		// Determine index by artist, default to 0 (if neither preferred nor custom art exists)
+		int rv = 0, i = 0;
+		for(SexArtwork art : getSexArtworkList()) {
+			// Always override with custom art
+			if(art.getArtist().getName().equals("Custom")) {
+				rv = i;
+				break;
+			}
+
+			// Otherwise, choose the preferred artist
+			if(art.getArtist().getFolderName().equals(Main.getProperties().preferredArtist)) {
+				rv = i;
+			}
+
+			++i;
+		}
+
+		return rv;
+	}
+	
+	public String getSexArtworkFolderName() {
+		// Get folder by class name if unique, character name otherwise
+		return "generic/" + this.getName();
+	}
+
+	public boolean hasSexArtwork() {
+		return !getSexArtworkList().isEmpty();
+	}
+
+	public List<SexArtwork> getSexArtworkList() {
+		return sexArtworkList;
+	}
+	
+	public int getSexArtworkIndex() {
+		if(sexArtworkIndex >= getSexArtworkList().size() || sexArtworkIndex < 0) {
+			sexArtworkIndex = getDefaultSexArtworkIndex();
+		}
+		return sexArtworkIndex;
+	}
+
+	public void setSexArtworkIndex(int sexArtworkIndex) {
+		sexArtworkIndex = sexArtworkIndex % getSexArtworkList().size();
+		if(sexArtworkIndex < 0) {
+			sexArtworkIndex = getSexArtworkList().size() + sexArtworkIndex;
+		}
+		this.sexArtworkIndex = sexArtworkIndex;
+	}
+
+	public void incrementSexArtworkIndex(int increment) {
+		setSexArtworkIndex(this.sexArtworkIndex + increment);
+	}
+	/**
+	 * Equivalent to {@link GameCharacter#loadImages(boolean)} without forcing a reload if the folder didn't change.
+	 */
+	public void loadImages() {
+		loadImages(false);
+	}
+	
+	// ************** Artwork **************//
+
+//	this.loadImages();
+
+//	if (this.hasSexArtwork() && Main.getProperties().hasValue(PropertyValue.sexArtwork)) {
+		
+	//	 Cache current image
+	//	ImageCache.INSTANCE.requestCache(this.getCurrentSexArtwork().getCurrentImage());
+//	}
+	
+	/**
+	 * Copies a list of files into this character's image directory and forces a reload of the artwork list.
+	 * @param imageFiles The list of files to import
+	 */
+	public void importImages(List<File> imageFiles) {
+		try {
+			// Copy files to the character's custom image folder
+			Path destination = Paths.get("res", "images", "sexpositions", getSexArtworkFolderName(), "custom");
+			Files.createDirectories(destination);
+			for (File source : imageFiles) {
+				// Copy to temporary file and use atomic move to guarantee that the file is available
+				Path tmp = destination.resolve(source.getName() + ".tmp");
+				Files.copy(source.toPath(), tmp);
+				Files.move(tmp, destination.resolve(source.getName()), StandardCopyOption.ATOMIC_MOVE);
+			}
+
+			// Reload the character's images
+			loadImages(true);
+			Main.game.addEvent(new EventLogEntry(Main.game.getMinutesPassed(), "[style.colourGood(Images imported)]",
+					imageFiles.size() + (imageFiles.size() > 1 ? " images were" : " image was") + " added"), false);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			Main.game.addEvent(new EventLogEntry(Main.game.getMinutesPassed(), "[style.colourBad(Image import failed)]",
+					"See error.log for details"), false);
+		}
+	}
+	
+	/**
+	 * Load or reload all sexArtworks associated with the position. If the parameter is set to true, a reload will always
+	 * happen. Otherwise, nothing will be done if the folder name didn't change.
+	 * @param forceReload Always reload, even if the folder name didn't change
+	 */
+	
+	public void loadImages(boolean forceReload) {
+		String folder = getSexArtworkFolderName();
+		
+//		if(Main.game.isStarted())
+//			System.out.println(folder);
+		
+		if (folder.equals(sexArtworkFolderName) && !forceReload) {
+			// Nothing changed, abort loading
+			return;
+			
+		} else {
+			sexArtworkList.clear();
+			sexArtworkFolderName = folder;
+		}
+
+		if(!folder.isEmpty()) {
+			for(Artist artist : SexArtwork.allArtists) {
+				File f = new File("res/images/sexpositions/" + folder + "/" + artist.getFolderName());
+				if(f.exists() && f.isDirectory()) {
+					SexArtwork art = new SexArtwork(this, f, artist);
+					// Cull empty sexArtwork lists
+					if (art.getTotalSexArtworkCount() > 0) {
+						sexArtworkList.add(art);
+					}
+				}
+			}
+		}
+		
+		if(sexArtworkIndex >= getSexArtworkList().size()) {
+			sexArtworkIndex = getDefaultSexArtworkIndex();
+		}
+		
+		if (this.hasSexArtwork() && Main.getProperties().hasValue(PropertyValue.sexArtwork)) {
+		
+			// Cache current image
+			ImageCache.INSTANCE.requestCache(this.getCurrentSexArtwork().getCurrentImage());
+		}
 	}
 }

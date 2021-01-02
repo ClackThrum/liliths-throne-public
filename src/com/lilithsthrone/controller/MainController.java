@@ -1,5 +1,6 @@
 package com.lilithsthrone.controller;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
@@ -92,6 +93,7 @@ import com.lilithsthrone.game.sex.SexPace;
 import com.lilithsthrone.game.sex.SexParticipantType;
 import com.lilithsthrone.game.sex.SexType;
 import com.lilithsthrone.game.sex.managers.SexManagerDefault;
+import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.game.sex.positions.SexPosition;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotLyingDown;
 import com.lilithsthrone.game.sex.sexActions.baseActions.PenisVagina;
@@ -99,6 +101,7 @@ import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.PositioningMenu;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.ImageCache;
 import com.lilithsthrone.rendering.RenderingEngine;
+import com.lilithsthrone.rendering.SexArtwork;
 import com.lilithsthrone.utils.Pathing;
 import com.lilithsthrone.utils.Units;
 import com.lilithsthrone.utils.Util;
@@ -129,6 +132,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 
 /**
  * @since 0.1.0
@@ -229,6 +233,11 @@ public class MainController implements Initializable {
 					for (NPC character : Main.game.getCharactersPresent())
 						if (character.hasArtwork() && Main.getProperties().hasValue(PropertyValue.artwork))
 							ImageCache.INSTANCE.requestCache(character.getCurrentArtwork().getCurrentImage());
+					
+		//			for (AbstractSexPosition sexPosition : Main.sex.getPosition())
+			//		AbstractSexPosition sexPosition = Main.sex.getPosition();
+			//	if (sexPosition.hasSexArtwork() && Main.getProperties().hasValue(PropertyValue.sexArtwork))
+			//			ImageCache.INSTANCE.requestCache(sexPosition.getCurrentSexArtwork().getCurrentImage());
 				}
 			}
 		});
@@ -1828,6 +1837,10 @@ public class MainController implements Initializable {
 							Main.sex.recalculateSexActions();
 							updateUI();
 							Main.game.updateResponses();
+							
+							AbstractSexPosition sexPosition = Main.sex.getPosition();
+							if (sexPosition.hasSexArtwork() && Main.getProperties().hasValue(PropertyValue.sexArtwork))
+								ImageCache.INSTANCE.requestCache(sexPosition.getCurrentSexArtwork().getCurrentImage());
 								
 						} else if(Main.game.isInCombat()) {
 							Main.combat.setTargetedCombatant((NPC) character);
@@ -1872,7 +1885,6 @@ public class MainController implements Initializable {
 				TooltipInformationEventListener el = new TooltipInformationEventListener().setExtraAttributes(character.getElemental());
 				addEventListener(documentAttributes, id, "mouseenter", el, false);
 			}
-			
 			
 			// For status effect slots:
 			for (AbstractStatusEffect se : character.getStatusEffects()) {
@@ -2388,6 +2400,10 @@ public class MainController implements Initializable {
 		} else {
 			webEngineButtonsLeft.loadContent(content);
 		}
+	}
+	
+	public void unbindListenersSexArtwork(Document document) {
+		unbindListeners(document);
 	}
 	
 	public void setButtonsRightContent(String content) {
