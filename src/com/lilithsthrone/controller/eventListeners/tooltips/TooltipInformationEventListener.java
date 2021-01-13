@@ -842,12 +842,24 @@ public class TooltipInformationEventListener implements EventListener {
 						if (owner.hasArtwork()) {
 							image = ImageCache.INSTANCE.requestImage(owner.getCurrentArtwork().getCurrentImage());
 						}
+					//	if (sexPosition.hasSexArtwork()) {
+					//		image = ImageCache.INSTANCE.requestImage(sexPosition.getCurrentSexArtwork().getCurrentImage());
+					//	}
+						displayImage = image != null;
+					}
+				
+					/*
+					 
+					boolean displaySexArtwork = Main.getProperties().hasValue(PropertyValue.thumbnail)
+							&& Main.getProperties().hasValue(PropertyValue.sexArtwork);
+					if (displaySexArtwork) {
 						if (sexPosition.hasSexArtwork()) {
 							image = ImageCache.INSTANCE.requestImage(sexPosition.getCurrentSexArtwork().getCurrentImage());
 						}
-						displayImage = image != null;
+					displaySexArtwork = image != null;
 					}
 					
+					 */
 					boolean crotchBreasts = owner.hasBreastsCrotch()
 							&& (Main.getProperties().getUddersLevel()>0 || owner.isFeral())
 							&& (owner.isBreastsCrotchVisibleThroughClothing()||owner.isAreaKnownByCharacter(CoverableArea.NIPPLES_CROTCH, Main.game.getPlayer()));

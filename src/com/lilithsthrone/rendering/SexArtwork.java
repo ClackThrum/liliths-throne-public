@@ -30,7 +30,8 @@ public class SexArtwork {
 	private AbstractSexPosition sexPosition;
 	private Artist artist;
 	
-	private int index;
+	// private
+	int index;
 	
 	private List<String> baseImages;
 	private List<String> partialImages;
@@ -158,7 +159,7 @@ public class SexArtwork {
 		} else {
 			path = getNakedImages().get(index - getClothedImages().size() - getPartialImages().size());
 		}
-
+		
 		if(path.isEmpty()) {
 			return null;
 		}

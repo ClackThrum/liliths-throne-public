@@ -208,6 +208,8 @@ import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.Artist;
 import com.lilithsthrone.rendering.Artwork;
+import com.lilithsthrone.rendering.CachedImage;
+import com.lilithsthrone.rendering.ImageCache;
 import com.lilithsthrone.rendering.Pattern;
 import com.lilithsthrone.rendering.RenderingEngine;
 import com.lilithsthrone.rendering.SVGImages;
@@ -468,7 +470,7 @@ public class MainControllerInitMethod {
 			try {
 				SexArtwork artwork = sexPosition.getCurrentSexArtwork();
 
-				id = "ARTWORK_INFO";
+				id = "SEXARTWORK_INFO";
 				if (MainController.document.getElementById(id) != null) {
 					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
 						if(!artwork.getArtist().getWebsites().isEmpty()) {
@@ -493,44 +495,77 @@ public class MainControllerInitMethod {
 							description), false);
 				}
 
-				id = "ARTWORK_PREVIOUS";
+				id = "SEXARTWORK_PREVIOUS";
 				if (MainController.document.getElementById(id) != null) {
 					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
 						if(artwork.getTotalSexArtworkCount()>1) {
+							//CachedImage image = ImageCache.INSTANCE.getImage(artwork.getCurrentImage());
+							//String imageString = "";
+							//imageString = image.getImageString();
 							artwork.incrementIndex(-1);
+							sexPosition.incrementSexArtworkIndex(-1);
+							ImageCache.INSTANCE.requestCache(sexPosition.getCurrentSexArtwork().getCurrentImage());
+						//	Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+						//	String newImageString = "";
+							//newImageString = image.getImageString();
+						//	Main.sex.SEX_DIALOGUE.getContent().replace(""+imageString+"", ""+newImageString+"");
+					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+							// sexPosition.loadSexImages(true);
+						//	Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 					//		if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
 					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 						}
 					}, false);
 				}
 
-				id = "ARTWORK_NEXT";
+				id = "SEXARTWORK_NEXT";
 				if (MainController.document.getElementById(id) != null) {
 					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
 						if(artwork.getTotalSexArtworkCount()>1) {
+					//		CachedImage image = ImageCache.INSTANCE.getImage(artwork.getCurrentImage());
+					//		CachedImage image = ImageCache.INSTANCE.requestCache(artwork.getCurrentImage());
+					//		String imageString = "";
+						//	imageString = image.getImageString();
 							artwork.incrementIndex(1);
+							sexPosition.incrementSexArtworkIndex(1);
+							ImageCache.INSTANCE.requestCache(sexPosition.getCurrentSexArtwork().getCurrentImage());
+						//	Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+					//		String newImageString = "";
+					//		newImageString = image.getImageString();
+					//		Main.sex.SEX_DIALOGUE.getContent().replace(""+imageString+"", ""+newImageString+"");
+					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+						//	sexPosition.loadSexImages(true);
+						//	Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 					//		if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
 					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 						}
 					}, false);
 				}
 
-				id = "ARTWORK_ARTIST_PREVIOUS";
+				id = "SEXARTWORK_ARTIST_PREVIOUS";
 				if (MainController.document.getElementById(id) != null) {
 					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
 						if(sexPosition.getSexArtworkList().size()>1) {
 							sexPosition.incrementSexArtworkIndex(-1);
+							ImageCache.INSTANCE.requestCache(sexPosition.getCurrentSexArtwork().getCurrentImage());
+						//	Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+					//		sexPosition.loadImages(true);
+						//	Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 				//			if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
 				//			Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 						}
 					}, false);
 				}
 
-				id = "ARTWORK_ARTIST_NEXT";
+				id = "SEXARTWORK_ARTIST_NEXT";
 				if (MainController.document.getElementById(id) != null) {
 					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
 						if(sexPosition.getSexArtworkList().size()>1) {
 							sexPosition.incrementSexArtworkIndex(1);
+							ImageCache.INSTANCE.requestCache(sexPosition.getCurrentSexArtwork().getCurrentImage());
+						//	Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+					//		sexPosition.loadImages(true);
+					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 					//		if (!character.isPlayer()) CharactersPresentDialogue.resetContent(character);
 					//		Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 						}
