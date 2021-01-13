@@ -586,7 +586,10 @@ public abstract class AbstractSexPosition {
 			sexArtworkIndex = getDefaultSexArtworkIndex();
 		}
 		
+		if (this.hasSexArtwork()) {
 		ImageCache.INSTANCE.requestCache(this.getCurrentSexArtwork().getCurrentImage());
+		
+		}
 	//	ImageCache.INSTANCE.requestCache(f);
 //		for Main.sex.getPosition().getSexArtworkList()
 //			if (this.hasSexArtwork() && Main.getProperties().hasValue(PropertyValue.artwork))
