@@ -38,6 +38,7 @@ public class Missionary {
 			return "Spread your [npc.legs] wide open for [npc2.name].";
 		}
 		
+		
 		@Override
 		public SexActionCategory getCategory() {
 			return SexActionCategory.SEX;

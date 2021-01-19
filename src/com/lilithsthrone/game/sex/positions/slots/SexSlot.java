@@ -25,7 +25,8 @@ import com.lilithsthrone.main.Main;
  */
 public class SexSlot {
 	
-	private String name;
+	// Used to be private name
+	public String name;
 	private String description;
 	private String orgasmDescription;
 	private boolean standing;

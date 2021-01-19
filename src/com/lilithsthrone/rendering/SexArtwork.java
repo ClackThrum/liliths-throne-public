@@ -15,6 +15,7 @@ import org.w3c.dom.NodeList;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.game.sex.positions.SexPosition;
+import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
@@ -175,8 +176,8 @@ public class SexArtwork {
 
 	public List<String> getPartialImages() {
 		List<String> filteredImages = new ArrayList<>(partialImages);
-//		filteredImages.removeIf(s -> s.contains("penis") && !character.hasPenisIgnoreDildo());
-//		filteredImages.removeIf(s -> s.contains("vagina") && !character.hasVagina());
+	//	filteredImages.removeIf(s -> s.contains("resisting") && !character.hasPenisIgnoreDildo());
+	//	filteredImages.removeIf(s -> s.contains("resisting") && Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()));
 		return filteredImages;
 	}
 

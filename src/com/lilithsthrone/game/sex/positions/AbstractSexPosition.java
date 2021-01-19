@@ -31,6 +31,7 @@ import com.lilithsthrone.game.sex.SexActionInteractions;
 import com.lilithsthrone.game.sex.SexAreaInterface;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
+import com.lilithsthrone.game.sex.SexPace;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotTag;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
@@ -471,9 +472,35 @@ public abstract class AbstractSexPosition {
 		return rv;
 	}
 	
+	public String getSexSlot() {
+		if (Main.game.isInSex()) {
+		if (Main.sex.getCharacterPerformingAction() != null) {
+		String sexSlot = Main.sex.getSexPositionSlot(Main.sex.getCharacterPerformingAction()).name;
+	//	String sexSlot = Main.sex.getSexPositionSlot(Main.sex.getCharacterPerformingAction()).getName(Main.sex.getCharacterPerformingAction());
+		return sexSlot;
+			}
+		return null;
+		}
+		else {
+			return null;
+		}
+	}
+	
 	public String getSexArtworkFolderName() {
 		// Get folder by class name if unique, character name otherwise
-		return "generic/" + this.getName();
+
+	//	if Main.sex.getSexPositionSlot(Main.sex.getCharacterPerformingAction())
+		if (Main.game.isInSex()) {
+			return "generic/" + this.getName() + "/" + this.getSexSlot();
+		}
+		
+			// Gets the name of current sexpositionslot performed on the character targeted by the last turns action
+		//	String sexSlotName = Main.sex.getSexPositionSlot(Main.sex.getCharacterTargetedForSexAction(Main.sex.getLastUsedSexAction(Main.sex.getCharacterPerformingAction()))).getName(Main.sex.getCharacterTargetedForSexAction(Main.sex.getLastUsedSexAction(Main.sex.getCharacterPerformingAction())));
+		//	return "generic/" + this.getName() + sexSlotName;
+	//	}
+		else {
+			return "generic/" + this.getName();
+		}
 	}
 
 	public boolean hasSexArtwork() {
