@@ -491,7 +491,12 @@ public abstract class AbstractSexPosition {
 
 	//	if Main.sex.getSexPositionSlot(Main.sex.getCharacterPerformingAction())
 		if (Main.game.isInSex()) {
-			return "generic/" + this.getName() + "/" + this.getSexSlot();
+			if (Main.sex.getCharacterPerformingAction() != null) {
+				if (Main.sex.getCharacterPerformingAction().isUnique()) {
+					return Main.sex.getCharacterTargetedForSexAction(Main.sex.getLastUsedPlayerAction()).getName() + "/" + this.getName() + "/" + this.getSexSlot();
+				}
+			}
+				return "generic/" + this.getName() + "/" + this.getSexSlot();
 		}
 		
 			// Gets the name of current sexpositionslot performed on the character targeted by the last turns action
